@@ -25,8 +25,7 @@
     "dev": "ts-node src/index.ts",
     "dev:serve": "nodemon --watch src --ext ts,js,json --ignore dashboard/dist --ignore .codewiki --signal SIGINT --exec \"ts-node src/index.ts serve\"",
     "test": "jest",
-    "prepublishOnly": "npm run build:all",
-    "publish": "npm version patch && npm publish --access public"
+    "prepublishOnly": "npm run build:all"
   },
   "keywords": [
     "ai",
