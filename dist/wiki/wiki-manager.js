@@ -76,7 +76,11 @@ class WikiManager {
      * @param content - The content to save
      */
     saveMemory(filename, content) {
-        const filePath = path.join(this.wikiDir, 'memory', `${filename}.md`);
+        const dirPath = path.join(this.wikiDir, 'memory');
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath, { recursive: true });
+        }
+        const filePath = path.join(dirPath, `${filename}.md`);
         fs.writeFileSync(filePath, content);
     }
     appendToSummary(filename, content) {
@@ -101,7 +105,11 @@ class WikiManager {
      * @param content - The content to save
      */
     saveDiagram(filename, content) {
-        const filePath = path.join(this.wikiDir, 'diagrams', `${filename}.mmd`);
+        const dirPath = path.join(this.wikiDir, 'diagrams');
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath, { recursive: true });
+        }
+        const filePath = path.join(dirPath, `${filename}.mmd`);
         fs.writeFileSync(filePath, content);
     }
     /**
@@ -123,7 +131,11 @@ class WikiManager {
      * @param content - The content to save
      */
     saveSummary(filename, content) {
-        const filePath = path.join(this.wikiDir, 'summaries', `${filename}.md`);
+        const dirPath = path.join(this.wikiDir, 'summaries');
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath, { recursive: true });
+        }
+        const filePath = path.join(dirPath, `${filename}.md`);
         fs.writeFileSync(filePath, content);
     }
     /**

@@ -418,4 +418,5 @@ function findFiles(dir: string): string[] {
     return results;
 }
 
-program.parse(process.argv);
+  program.parseAsync(process.argv);
+  console.log(`[LOG] CLI invoked with command: ${process.argv[2]}`);

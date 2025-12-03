@@ -3,3 +3,7 @@ dist/
 .env
 .codewiki/
 *.log
+# Task Management MCP Database
+tskdb.json
+venv-chroma
+roughPlan.md

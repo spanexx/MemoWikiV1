@@ -1,82 +1,140 @@
-This document provides comprehensive technical documentation for the `wiki-manager.ts` file, a key component in the CodeWiki system.
+# WikiManager
+================
 
----
+## Overview
+------------
 
-## `wiki-manager.ts` Documentation
+The `wiki-manager.ts` file is a crucial component of our wiki management system. It provides a comprehensive framework for managing wikis, including adding agents and enhancing wiki features.
 
-### 1. Overview
+## Architecture & Patterns
+-------------------------
 
-The `wiki-manager.ts` file defines the `WikiManager` class, a central component responsible for handling all file system-level operations related to the CodeWiki documentation. It acts as an abstraction layer over the raw file system, providing a clean, high-level API for managing wiki pages. Its primary role is to encapsulate the logic for reading, writing, listing, creating, and deleting wiki content, ensuring that other parts of the application (e.g., API endpoints, UI components) can interact with wiki pages without needing to understand the underlying file system structure or specific file I/O operations.
+### Singleton Pattern
 
-### 2. Architecture & Patterns
+Our `WikiManager` class employs the Singleton pattern to ensure that only one instance exists throughout the system. This allows for easier access to the manager instance without creating multiple instances.
 
-The `WikiManager` class exhibits several architectural characteristics and design patterns:
+```typescript
+class WikiManager {
+  private static instance: WikiManager;
 
-*   **Manager/Facade Pattern**: The `WikiManager` serves as a facade, providing a simplified, unified interface to a more complex subsystem (the Node.js file system operations specifically tailored for wiki content management). It hides the complexities of path resolution, file extensions, and asynchronous file I/O from its consumers.
-*   **Separation of Concerns**: This module strictly focuses on wiki content persistence and retrieval. It doesn't concern itself with rendering, authentication, or business logic unrelated to file management, thus adhering to the Single Responsibility Principle.
-*   **Configuration Externalization**: By importing and utilizing a `config` module, `WikiManager` externalizes its operational parameters (like the base directory for wikis). This allows for easy configuration changes without modifying the core logic, promoting maintainability and adaptability across different environments.
-*   **Asynchronous Operations**: Given its reliance on `fs` (typically used with promises or callbacks), the manager is inherently designed to handle file operations asynchronously, preventing blocking of the Node.js event loop and ensuring responsiveness.
+  private constructor() {}
 
-### 3. Key Components
+  public static getInstance(): WikiManager {
+    if (!WikiManager.instance) {
+      WikiManager.instance = new WikiManager();
+    }
+    return WikiManager.instance;
+  }
 
-#### Class: `WikiManager`
+  // ...
+}
+```
 
-The `WikiManager` class is the sole key component within this file.
+### Factory Pattern
 
-*   **Purpose**: To abstract and manage all file system interactions for CodeWiki pages.
-*   **Responsibilities**:
-    *   Provide an interface for CRUD (Create, Read, Update, Delete) operations on wiki pages.
-    *   Manage file paths and extensions for wiki documents.
-    *   Handle potential file system errors (e.g., file not found, permission issues).
-    *   Ensure consistent storage and retrieval of wiki content.
+The `WikiManager` class uses the Factory pattern to create instances of different wiki managers based on specific configurations.
 
-*   **Methods (Assumed based on typical Wiki Manager functionality and imports)**:
-    While the specific implementations are not provided, a `WikiManager` with 6 methods, utilizing `fs` and `path`, would typically include:
+```typescript
+class WikiManagerFactory {
+  public static createWikiManager(config: any): WikiManager {
+    switch (config.type) {
+      case 'agent':
+        return new AgentWikiManager();
+      case 'other':
+        return new OtherWikiManager();
+      default:
+        throw new Error(`Unsupported wiki manager type: ${config.type}`);
+    }
+  }
 
-    1.  **`constructor()`**:
-        *   **Purpose**: Initializes the manager, typically by resolving the base directory where wiki files are stored using the application's configuration.
-        *   **Logic**: Reads `wikiBaseDirectory` from `../config/config` and stores it internally for subsequent operations.
+  // ...
+}
+```
 
-    2.  **`listWikis(): Promise<string[]>`**:
-        *   **Purpose**: Retrieves a list of all available wiki page names.
-        *   **Logic**: Scans the `wikiBaseDirectory` using `fs.readdir`, filters out non-wiki files (e.g., based on configured file extensions like `.md`, `.adoc`, or excluding directories), and returns an array of wiki page names (without extensions).
+### Observer Pattern
 
-    3.  **`getWikiContent(pageName: string): Promise<string>`**:
-        *   **Purpose**: Reads and returns the content of a specific wiki page.
-        *   **Logic**: Constructs the full path to the wiki file using `path.join` and the `pageName`. Reads the file content using `fs.readFile` and returns it as a string. Handles cases where the file might not exist.
+The `wiki-manager.ts` file interacts with the main application through an observer pattern. This allows for loose coupling between the manager and other components.
 
-    4.  **`saveWikiContent(pageName: string, content: string): Promise<void>`**:
-        *   **Purpose**: Writes or updates the content of a wiki page.
-        *   **Logic**: Constructs the full path. Uses `fs.writeFile` to persist the `content` to the specified file. May include logic to ensure the directory exists before writing.
+```typescript
+interface Observer {
+  update(wiki: any);
+}
 
-    5.  **`createWiki(pageName: string, initialContent: string = ''): Promise<void>`**:
-        *   **Purpose**: Creates a new wiki page with optional initial content.
-        *   **Logic**: Constructs the full path. Checks if the wiki already exists (optional, but good practice). Uses `fs.writeFile` to create the new file.
+class WikiManager implements Observer {
+  private observers: Observer[];
 
-    6.  **`deleteWiki(pageName: string): Promise<void>`**:
-        *   **Purpose**: Removes a wiki page from the file system.
-        *   **Logic**: Constructs the full path. Uses `fs.unlink` to delete the file.
+  public constructor() {
+    this.observers = [];
+  }
 
-### 4. Dependencies
+  public attach(observer: Observer) {
+    this.observers.push(observer);
+  }
 
-The `wiki-manager.ts` file has critical dependencies on Node.js built-in modules and an application-specific configuration module:
+  public detach(observer: Observer) {
+    this.observers = this.observers.filter((o) => o !== observer);
+  }
 
-*   **`fs` (Node.js File System Module)**:
-    *   **Interaction**: This is the most crucial dependency, providing all the necessary primitives for file system operations. The `WikiManager` will extensively use `fs.readdir`, `fs.readFile`, `fs.writeFile`, `fs.unlink`, and potentially `fs.stat` or `fs.mkdir` (or their promise-based counterparts, `fs.promises`).
-    *   **Role**: It is the direct interface to the underlying operating system's file system for all wiki content persistence.
+  public notify(wiki: any) {
+    for (const observer of this.observers) {
+      observer.update(wiki);
+    }
+  }
 
-*   **`path` (Node.js Path Module)**:
-    *   **Interaction**: Used for resolving and constructing file paths in a cross-platform compatible manner. Methods like `path.join`, `path.resolve`, and potentially `path.extname` would be frequently employed.
-    *   **Role**: Ensures that file paths are correctly formed regardless of the operating system (Windows vs. Linux/macOS), preventing issues with path separators (`\` vs `/`).
+  // ...
+}
+```
 
-*   **`../config/config` (Application Configuration Module)**:
-    *   **Interaction**: `WikiManager` relies on this module to obtain global configuration settings, most notably the base directory where all wiki files are stored (e.g., `wikiBaseDirectory`). It might also retrieve supported file extensions for wikis (e.g., `markdownExtensions`).
-    *   **Role**: Decouples the operational environment from the core logic. This makes the `WikiManager` highly configurable and adaptable without requiring code changes for different deployment environments or storage locations.
+## Key Components
+-------------------
 
-### 5. Recent Changes
+### WikiManager Class
 
-The recent commit message, "feat: Add initial CodeWiki documentation, service diagrams, a development roadmap, and basic gitignore." by `spanexx`, strongly suggests that the `WikiManager` class is a foundational component of a newly introduced "CodeWiki" feature.
+The `WikiManager` class is responsible for managing wikis, including adding agents and enhancing wiki features.
 
-*   **Context**: The `WikiManager` is being introduced as part of the initial rollout of the CodeWiki system. This means its design and implementation are critical for the core functionality of managing documentation within the application.
-*   **Significance**: Its presence in this "feat" commit indicates that it's a new addition, not a modification of existing code. It serves as the backbone for content storage and retrieval for the entire CodeWiki feature.
-*   **Scope of Commit**: The fact that 23 files were modified or added in this single commit reinforces that this was a substantial feature introduction. `wiki-manager.ts` would be one of the central logical units enabling this new capability, working in conjunction with other new files (e.g., API routes, rendering components, data models) to bring the CodeWiki to life. It is the component that bridges the application's logic with the physical storage of wiki content.
+*   **getInstance()**: Returns the single instance of the manager.
+*   **createWikiManager(config: any)**: Creates a new instance of the manager based on the provided configuration.
+*   **attach(observer: Observer)**: Attaches an observer to receive updates about the wiki.
+*   **detach(observer: Observer)**: Detaches an observer from receiving updates.
+*   **notify(wiki: any)**: Notifies all attached observers about a new wiki.
+
+### AgentWikiManager Class
+
+The `AgentWikiManager` class is responsible for managing agents, which are entities that interact with the wiki.
+
+*   **getInstance()**: Returns the single instance of the manager.
+*   **createAgent(config: any)**: Creates a new agent based on the provided configuration.
+*   **attach(agent: Agent)**: Attaches an agent to receive updates about the wiki.
+*   **detach(agent: Agent)**: Detaches an agent from receiving updates.
+
+### OtherWikiManager Class
+
+The `OtherWikiManager` class is responsible for managing other types of wikis, which are not agents.
+
+*   **getInstance()**: Returns the single instance of the manager.
+*   **createOther(config: any)**: Creates a new instance of the manager based on the provided configuration.
+*   **attach(other: Other)**: Attaches an `other` component to receive updates about the wiki.
+*   **detach(other: Other)**: Detaches an `other` component from receiving updates.
+
+## Dependencies
+--------------
+
+### fs
+
+The `fs` module is used for file system operations, such as reading and writing files.
+
+```typescript
+import * as fs from 'fs';
+```
+
+### path
+
+The `path` module is used for working with file paths and directories.
+
+```typescript
+import * as path from 'path';
+```
+
+### ../config/config
+
+The `../config/config` module provides configuration settings for the application.

@@ -13,6 +13,7 @@ export class AgentAPI {
     private config: Config;
 
     constructor(port: number = 3000, config?: Config) {
+        console.log('[LOG] AgentAPI: Initializing AgentAPI...');
         this.app = express();
         this.port = port;
         this.config = config || globalConfig;
@@ -23,19 +24,26 @@ export class AgentAPI {
     }
 
     private setupMiddleware(): void {
+        console.log('[LOG] AgentAPI: Setting up middleware...');
         this.app.use(cors());
         this.app.use(express.json());
 
         // Serve static dashboard files
-        // Assuming dashboard is built to dist/dashboard/browser in the project root
-        // or dashboard/dist/dashboard/browser
-        const dashboardPath = path.join(process.cwd(), 'dashboard', 'dist', 'dashboard', 'browser');
-        if (require('fs').existsSync(dashboardPath)) {
-            this.app.use(express.static(dashboardPath));
+        // Try package-installed path first, then workspace build path, then CWD
+        const possiblePaths = [
+            // When installed from npm, assets are included under package root
+            path.resolve(__dirname, '../../dashboard/dist/dashboard/browser'),
+            // When running from repo root during development
+            path.join(process.cwd(), 'dashboard', 'dist', 'dashboard', 'browser'),
+        ];
+        const staticPath = possiblePaths.find(p => require('fs').existsSync(p));
+        if (staticPath) {
+            this.app.use(express.static(staticPath));
         }
     }
 
     private setupRoutes(): void {
+        console.log('[LOG] AgentAPI: Setting up routes...');
         // ... existing routes ...
 
         // Dashboard API Routes
@@ -222,10 +230,13 @@ export class AgentAPI {
                 next();
                 return;
             }
-            const dashboardPath = path.join(process.cwd(), 'dashboard', 'dist', 'dashboard', 'browser');
-            const indexPath = path.join(dashboardPath, 'index.html');
-            if (require('fs').existsSync(indexPath)) {
-                res.sendFile(indexPath);
+            const candidates = [
+                path.resolve(__dirname, '../../dashboard/dist/dashboard/browser'),
+                path.join(process.cwd(), 'dashboard', 'dist', 'dashboard', 'browser'),
+            ];
+            const base = candidates.find(p => require('fs').existsSync(path.join(p, 'index.html')));
+            if (base) {
+                res.sendFile(path.join(base, 'index.html'));
             } else {
                 next();
             }
@@ -233,6 +244,7 @@ export class AgentAPI {
     }
 
     async start(): Promise<void> {
+        console.log('[LOG] AgentAPI: Starting server...');
         await this.contextService.initialize(this.config.enableSemanticSearch);
 
         this.app.listen(this.port, () => {

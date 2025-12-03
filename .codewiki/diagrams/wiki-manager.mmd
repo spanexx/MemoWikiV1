@@ -1,14 +1,43 @@
 ```mermaid
-classDiagram
-    class WikiManager {
-        + baseDir
-        + wikiDir
-        + config
-        + initialize()
-        + saveMemory()
-        + saveDiagram()
-        + saveFlow()
-        + saveSummary()
-        + createIndex()
-    }
+class DiagramMermaid extends WikiManager {
+  properties:
+    baseDir: string
+    wikiDir: string
+    config: object
+
+  methods:
+    initialize()
+    saveMemory()
+    appendToSummary(wikiId)
+    saveDiagram(design)
+    saveFlow(flowId)
+    saveSummary(summaryId, content)
+    createIndex(wikiIds)
+}
+
+class WikiManager {
+  properties:
+    baseDir: string
+    wikiDir: string
+    config: object
+
+  methods:
+    initialize()
+    saveMemory()
+    appendToSummary(wikiId)
+    saveDiagram(design)
+    saveFlow(flowId)
+    saveSummary(summaryId, content)
+    createIndex(wikiIds)
+
+class IndexMermaid extends DiagramMermaid {
+  properties:
+    wikiIds: array
+}
+
+class Wiki {
+  properties:
+    id: string
+    title: string
+}
 ```
