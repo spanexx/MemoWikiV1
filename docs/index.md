@@ -75,4 +75,26 @@ The dashboard shows:
 - **CLI Usage**: each command has its own page under *CLI Commands*.
 - **Dashboard**: screenshots and flows on the *Dashboard* page.
 
-For full details, browse the rest of the docs in the sidebar.
+For full details, browse the rest of the docs linked below.
+
+## Navigation
+
+- **Getting Started**
+  - [Update](update.md)
+  - [Search](search.md)
+  - [Summaries](summaries.md)
+
+- **CLI Commands**
+  - [update](update.md)
+  - [search](search.md)
+  - [summaries](summaries.md)
+  - [serve](serve.md)
+  - [analyze](analyze.md)
+  - [record](record.md)
+  - [intent](intent.md)
+
+- **Dashboard**
+  - [Dashboard](dashboard.md)
+
+- **Configuration**
+  - [Configuration](configuration.md)
