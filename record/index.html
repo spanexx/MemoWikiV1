@@ -1,0 +1,1441 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Persistent memory layer + agent for your codebase">
+      
+      
+      
+        <link rel="canonical" href="https://spanexx.github.io/MemoWikiV1/record/">
+      
+      
+        <link rel="prev" href="../analyze/">
+      
+      
+        <link rel="next" href="../intent/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>record - MemoWiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#record-command" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="MemoWiki" class="md-header__button md-logo" aria-label="MemoWiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MemoWiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              record
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/spanexx/MemoWikiV1" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    spanexx/MemoWikiV1
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../update/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../update/" class="md-tabs__link">
+          
+  
+  
+  CLI Commands
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../dashboard/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Dashboard
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../configuration/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Configuration
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MemoWiki" class="md-nav__button md-logo" aria-label="MemoWiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MemoWiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/spanexx/MemoWikiV1" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    spanexx/MemoWikiV1
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Update
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summaries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Commands
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI Commands
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Update
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summaries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serve/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    serve
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analyze/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    analyze
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    record
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    record
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Options
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Works
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How It Works">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-file-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. File Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-code-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Code Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-llm-summary-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. LLM Summary Generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-index-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Index Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auto-detect-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auto-Detect Files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#append-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Append Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-summary-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiple Summary Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#output-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary Format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stub-detection-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stub Detection Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#querying-summaries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Querying Summaries
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Cases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#for-ai-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For AI Agents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-developers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Developers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-with-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration with Workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    intent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="record-command">Record Command<a class="headerlink" href="#record-command" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The <code>record</code> command enables AI agents to save incremental implementation summaries. It tracks what was implemented, what was stubbed, and what remains as TODOs, creating a continuous documentation trail.</p>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>memowiki<span class="w"> </span>record<span class="w"> </span><span class="o">[</span>options<span class="o">]</span>
+</code></pre></div>
+
+<h2 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-f, --files &lt;files...&gt;</code></td>
+<td>Files to include in summary</td>
+<td>Auto-detect from git</td>
+</tr>
+<tr>
+<td><code>-o, --output &lt;name&gt;</code></td>
+<td>Summary filename</td>
+<td><code>implementation-YYYY-MM-DD</code></td>
+</tr>
+<tr>
+<td><code>-t, --type &lt;type&gt;</code></td>
+<td>Summary type: feature|bugfix|refactor</td>
+<td><code>feature</code></td>
+</tr>
+<tr>
+<td><code>--append</code></td>
+<td>Append to existing summary</td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="how-it-works">How It Works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
+<h3 id="1-file-detection">1. <strong>File Detection</strong><a class="headerlink" href="#1-file-detection" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Auto-detects modified/created files from git</li>
+<li>Or accepts explicit file list via <code>--files</code></li>
+</ul>
+<h3 id="2-code-analysis">2. <strong>Code Analysis</strong><a class="headerlink" href="#2-code-analysis" title="Permanent link">&para;</a></h3>
+<p>Analyzes code for:
+- <strong>TODOs</strong>: Comments containing TODO, FIXME, XXX
+- <strong>Stubs</strong>: Empty functions, placeholder returns, unimplemented methods
+- <strong>Completed</strong>: Fully functional code</p>
+<h3 id="3-llm-summary-generation">3. <strong>LLM Summary Generation</strong><a class="headerlink" href="#3-llm-summary-generation" title="Permanent link">&para;</a></h3>
+<p>Creates structured markdown with:
+1. <strong>What Was Implemented</strong> - Fully functional features
+2. <strong>What Was Stubbed</strong> - Placeholder/incomplete code
+3. <strong>Outstanding TODOs</strong> - What still needs work
+4. <strong>Integration Points</strong> - How this connects to the system
+5. <strong>Next Steps</strong> - Suggested follow-up work</p>
+<h3 id="4-index-management">4. <strong>Index Management</strong><a class="headerlink" href="#4-index-management" title="Permanent link">&para;</a></h3>
+<p>Updates <code>.codewiki/summaries/index.json</code>:
+- Summary ID
+- Timestamp
+- Type (feature/bugfix/refactor)
+- Files included
+- Summary path</p>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="basic-summary">Basic Summary<a class="headerlink" href="#basic-summary" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>memowiki<span class="w"> </span>record<span class="w"> </span>--files<span class="w"> </span>src/auth/*.ts<span class="w"> </span>--type<span class="w"> </span>feature<span class="w"> </span>--output<span class="w"> </span>auth-v1
+</code></pre></div>
+
+<p>Output:</p>
+<div class="codehilite"><pre><span></span><code>📝<span class="w"> </span><span class="nv">Generating</span><span class="w"> </span><span class="nv">summary</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="nv">files</span>...
+<span class="w">   </span>🤖<span class="w"> </span>[<span class="nv">openai</span>:<span class="nv">gpt</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="nv">turbo</span><span class="o">-</span><span class="nv">preview</span>]<span class="w"> </span><span class="nv">Generating</span><span class="w"> </span><span class="nv">Agent</span><span class="w"> </span><span class="nv">Summary</span>...
+✨<span class="w"> </span><span class="nv">Saved</span><span class="w"> </span><span class="nv">summary</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span>.<span class="nv">codewiki</span><span class="o">/</span><span class="nv">summaries</span><span class="o">/</span><span class="nv">auth</span><span class="o">-</span><span class="nv">v1</span>.<span class="nv">md</span>
+</code></pre></div>
+
+<h3 id="auto-detect-files">Auto-Detect Files<a class="headerlink" href="#auto-detect-files" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>memowiki<span class="w"> </span>record<span class="w"> </span>--type<span class="w"> </span>bugfix<span class="w"> </span>--output<span class="w"> </span>fix-login-bug
+</code></pre></div>
+
+<p>Uses git to find modified and created files.</p>
+<h3 id="append-mode">Append Mode<a class="headerlink" href="#append-mode" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>memowiki<span class="w"> </span>record<span class="w"> </span>--files<span class="w"> </span>src/auth/login.ts<span class="w"> </span>--append<span class="w"> </span>--output<span class="w"> </span>auth-v1
+</code></pre></div>
+
+<p>Adds to existing summary with timestamp separator:</p>
+<div class="codehilite"><pre><span></span><code><span class="gh"># Previous content...</span>
+
+---
+
+<span class="gu">## Update: 2025-12-02T12:00:00.000Z</span>
+
+<span class="gh"># New implementation summary...</span>
+</code></pre></div>
+
+<h3 id="multiple-summary-types">Multiple Summary Types<a class="headerlink" href="#multiple-summary-types" title="Permanent link">&para;</a></h3>
+<p><strong>Feature implementation:</strong></p>
+<div class="codehilite"><pre><span></span><code>memowiki<span class="w"> </span>record<span class="w"> </span>--type<span class="w"> </span>feature<span class="w"> </span>--output<span class="w"> </span>user-profile
+</code></pre></div>
+
+<p><strong>Bug fix:</strong></p>
+<div class="codehilite"><pre><span></span><code>memowiki<span class="w"> </span>record<span class="w"> </span>--type<span class="w"> </span>bugfix<span class="w"> </span>--output<span class="w"> </span>fix-auth-token
+</code></pre></div>
+
+<p><strong>Refactoring:</strong></p>
+<div class="codehilite"><pre><span></span><code>memowiki<span class="w"> </span>record<span class="w"> </span>--type<span class="w"> </span>refactor<span class="w"> </span>--output<span class="w"> </span>cleanup-services
+</code></pre></div>
+
+<h2 id="output-structure">Output Structure<a class="headerlink" href="#output-structure" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="na">.codewiki</span><span class="err">/</span><span class="no">summaries</span><span class="err">/</span>
+<span class="err">├──</span><span class="w"> </span><span class="nf">index.json</span><span class="w">                      </span><span class="c1"># Central index</span>
+<span class="err">├──</span><span class="w"> </span><span class="nf">auth-v1.md</span><span class="w">                      </span><span class="c1"># Feature summary</span>
+<span class="err">├──</span><span class="w"> </span><span class="nf">fix-login-bug.md</span><span class="w">                </span><span class="c1"># Bugfix summary</span>
+<span class="err">└──</span><span class="w"> </span><span class="nf">cleanup-services.md</span><span class="w">             </span><span class="c1"># Refactor summary</span>
+</code></pre></div>
+
+<h2 id="summary-format">Summary Format<a class="headerlink" href="#summary-format" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="gh"># Feature: User Authentication</span>
+
+<span class="gs">**Date**</span>: 2025-12-02  
+<span class="gs">**Files**</span>: src/auth/login.ts, src/auth/register.ts  
+<span class="gs">**Type**</span>: Feature
+
+<span class="gu">## What Was Implemented</span>
+<span class="k">-</span><span class="w"> </span>User login with JWT authentication
+<span class="k">-</span><span class="w"> </span>Password hashing with bcrypt
+<span class="k">-</span><span class="w"> </span>Session management
+
+<span class="gu">## What Was Stubbed</span>
+<span class="k">-</span><span class="w"> </span>Password reset functionality (placeholder)
+<span class="k">-</span><span class="w"> </span>OAuth integration (TODO)
+
+<span class="gu">## Outstanding TODOs</span>
+<span class="k">- [ ]</span> Implement password reset email flow
+<span class="k">- [ ]</span> Add OAuth providers (Google, GitHub)
+<span class="k">- [ ]</span> Add rate limiting to login endpoint
+
+<span class="gu">## Integration Points</span>
+<span class="k">-</span><span class="w"> </span>Connects to <span class="sb">`UserService`</span> for user lookup
+<span class="k">-</span><span class="w"> </span>Uses <span class="sb">`TokenService`</span> for JWT generation
+<span class="k">-</span><span class="w"> </span>Integrates with <span class="sb">`EmailService`</span> (stubbed)
+
+<span class="gu">## Next Steps</span>
+<span class="k">1.</span> Complete password reset flow
+<span class="k">2.</span> Add comprehensive tests
+<span class="k">3.</span> Implement OAuth
+</code></pre></div>
+
+<h2 id="stub-detection-patterns">Stub Detection Patterns<a class="headerlink" href="#stub-detection-patterns" title="Permanent link">&para;</a></h2>
+<p>The command identifies these stub patterns:</p>
+<p><strong>Empty functions:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">placeholder</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Empty</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Literal returns:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">getData</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span><span class="w">  </span><span class="c1">// Stub</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Not implemented:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">process</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;Not implemented&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Placeholder comments:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">handler</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// TODO: Implement this</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="querying-summaries">Querying Summaries<a class="headerlink" href="#querying-summaries" title="Permanent link">&para;</a></h2>
+<p>See summaries with the <a href="../summaries/"><code>summaries</code> command</a>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Recent summaries</span>
+memowiki<span class="w"> </span>summaries<span class="w"> </span>--recent<span class="w"> </span><span class="m">5</span>
+
+<span class="c1"># By file</span>
+memowiki<span class="w"> </span>summaries<span class="w"> </span>--file<span class="w"> </span>src/auth/login.ts
+
+<span class="c1"># By type</span>
+memowiki<span class="w"> </span>summaries<span class="w"> </span>--type<span class="w"> </span>feature
+</code></pre></div>
+
+<h2 id="use-cases">Use Cases<a class="headerlink" href="#use-cases" title="Permanent link">&para;</a></h2>
+<h3 id="for-ai-agents">For AI Agents<a class="headerlink" href="#for-ai-agents" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Incremental documentation</strong> after each task</li>
+<li><strong>Work tracking</strong> for what's done vs stubbed</li>
+<li><strong>Context preservation</strong> for future agents</li>
+<li><strong>TODO management</strong> explicit list of follow-up work</li>
+</ul>
+<h3 id="for-developers">For Developers<a class="headerlink" href="#for-developers" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Implementation log</strong> chronological record</li>
+<li><strong>Reduced manual docs</strong> automatic generation</li>
+<li><strong>Better handoffs</strong> see implementation rationale</li>
+<li><strong>Quick lookups</strong> find what was implemented when</li>
+</ul>
+<h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Record after each task</strong> - Keep summaries focused</li>
+<li><strong>Use descriptive names</strong> - Make summaries easy to find</li>
+<li><strong>Choose correct type</strong> - feature/bugfix/refactor</li>
+<li><strong>Use append mode</strong> - For ongoing work on same feature</li>
+<li><strong>Review before committing</strong> - Ensure accuracy</li>
+</ol>
+<h2 id="integration-with-workflow">Integration with Workflow<a class="headerlink" href="#integration-with-workflow" title="Permanent link">&para;</a></h2>
+<p><strong>Post-implementation workflow:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 1. Make code changes</span>
+git<span class="w"> </span>add<span class="w"> </span>src/auth/*.ts
+
+<span class="c1"># 2. Record summary</span>
+memowiki<span class="w"> </span>record<span class="w"> </span>--type<span class="w"> </span>feature<span class="w"> </span>--output<span class="w"> </span>auth-implementation
+
+<span class="c1"># 3. Commit both code and docs</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add authentication&quot;</span>
+</code></pre></div>
+
+<p><strong>CI/CD Integration:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># .github/workflows/docs.yml</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Record implementation</span>
+<span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">memowiki record --type feature --output ci-${GITHUB_SHA}</span>
+</code></pre></div>
+
+<h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../summaries/">Summaries Command</a> - Query summaries</li>
+<li><a href="../configuration/">Configuration Guide</a> - LLM provider setup</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "toc.integrate", "content.code.copy"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

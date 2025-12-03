@@ -1,0 +1,1685 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Persistent memory layer + agent for your codebase">
+      
+      
+      
+        <link rel="canonical" href="https://spanexx.github.io/MemoWikiV1/dashboard/">
+      
+      
+        <link rel="prev" href="../intent/">
+      
+      
+        <link rel="next" href="../configuration/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Dashboard - MemoWiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dashboard" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="MemoWiki" class="md-header__button md-logo" aria-label="MemoWiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MemoWiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Dashboard
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/spanexx/MemoWikiV1" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    spanexx/MemoWikiV1
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../update/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../update/" class="md-tabs__link">
+          
+  
+  
+  CLI Commands
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Dashboard
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../configuration/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Configuration
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="MemoWiki" class="md-nav__button md-logo" aria-label="MemoWiki" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MemoWiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/spanexx/MemoWikiV1" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    spanexx/MemoWikiV1
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Update
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summaries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Commands
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLI Commands
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Update
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summaries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summaries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serve/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    serve
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analyze/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    analyze
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../record/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    record
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    intent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview Dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation-browser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation Browser
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summaries-timeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summaries Timeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Settings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Start
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#building-the-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building the Dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-the-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running the Dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#development-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Development Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#frontend-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frontend Stack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backend-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backend Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monorepo-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monorepo Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Development Workflow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Development Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#making-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Making Changes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Endpoints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dashboard-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dashboard API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dashboard API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview Statistics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-statuses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Statuses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#activity-feed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Activity Feed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llm-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LLM Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Customization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Customization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#styling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Styling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dashboard-not-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dashboard Not Loading
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-errors-in-console" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Errors in Console
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#development-server-cors-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Development Server CORS Issues
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roadmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roadmap
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Roadmap">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1 (Complete)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2 (Planned)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3 (Planned)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="dashboard">Dashboard<a class="headerlink" href="#dashboard" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The MemoWiki Dashboard is a web-based interface for visualizing and managing your codebase documentation. Built with Angular 21, it provides real-time insights into your documentation status, agent activity, and LLM configuration.</p>
+<h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
+<h3 id="overview-dashboard">Overview Dashboard<a class="headerlink" href="#overview-dashboard" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Statistics Cards</strong>: Quick view of documented files, cache hit rate, summaries created, and pending TODOs</li>
+<li><strong>Activity Feed</strong>: Recent documentation updates, summaries, and git synchronization events</li>
+<li><strong>Quick Actions</strong>: Navigate to key features with one click</li>
+</ul>
+<h3 id="documentation-browser">Documentation Browser<a class="headerlink" href="#documentation-browser" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>File List</strong>: View all files with their documentation status</li>
+<li><strong>Status Filters</strong>: Filter by documented, stale, or missing documentation</li>
+<li><strong>Search</strong>: Quick search through file paths</li>
+<li><strong>Cache Indicators</strong>: See which files have cached documentation</li>
+</ul>
+<h3 id="summaries-timeline">Summaries Timeline<a class="headerlink" href="#summaries-timeline" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Chronological View</strong>: All agent implementation summaries in reverse chronological order</li>
+<li><strong>Type Filters</strong>: Filter by feature, bugfix, refactor, or other</li>
+<li><strong>Metadata</strong>: View files included, TODOs, and stub indicators for each summary</li>
+<li><strong>Search</strong>: Find specific summaries by title or description</li>
+</ul>
+<h3 id="settings">Settings<a class="headerlink" href="#settings" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>LLM Configuration</strong>: View current provider and model settings</li>
+<li><strong>Provider Status</strong>: See which providers are configured and connected</li>
+<li><strong>Usage Statistics</strong>: Monitor API requests and estimated costs (per provider)</li>
+<li><strong>Quick Switching</strong>: Change default provider (when implemented)</li>
+</ul>
+<h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
+<h3 id="building-the-dashboard">Building the Dashboard<a class="headerlink" href="#building-the-dashboard" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Build backend and dashboard together</span>
+npm<span class="w"> </span>run<span class="w"> </span>build:all
+
+<span class="c1"># Or build dashboard only</span>
+npm<span class="w"> </span>run<span class="w"> </span>build:dashboard
+</code></pre></div>
+
+<h3 id="running-the-dashboard">Running the Dashboard<a class="headerlink" href="#running-the-dashboard" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Production mode (serve compiled dashboard)</span>
+npm<span class="w"> </span>run<span class="w"> </span>build:all
+memowiki<span class="w"> </span>serve
+<span class="c1"># Access at http://localhost:3000</span>
+</code></pre></div>
+
+<h3 id="development-mode">Development Mode<a class="headerlink" href="#development-mode" title="Permanent link">&para;</a></h3>
+<p>For dashboard development with hot-reload:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Terminal 1: Start backend API</span>
+memowiki<span class="w"> </span>serve
+
+<span class="c1"># Terminal 2: Start dashboard dev server</span>
+<span class="nb">cd</span><span class="w"> </span>dashboard
+npm<span class="w"> </span>start
+<span class="c1"># Access at http://localhost:4200</span>
+</code></pre></div>
+
+<p>The dev server proxies API requests to <code>localhost:3000</code> via <code>proxy.conf.json</code>.</p>
+<h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
+<h3 id="frontend-stack">Frontend Stack<a class="headerlink" href="#frontend-stack" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Framework</strong>: Angular 21 (standalone components)</li>
+<li><strong>UI Library</strong>: Angular Material</li>
+<li><strong>State Management</strong>: NgRx (planned for Phase 2)</li>
+<li><strong>Charts</strong>: Chart.js + ng2-charts (planned)</li>
+<li><strong>Markdown</strong>: ngx-markdown + marked</li>
+<li><strong>Diagrams</strong>: Mermaid (planned)</li>
+</ul>
+<h3 id="backend-integration">Backend Integration<a class="headerlink" href="#backend-integration" title="Permanent link">&para;</a></h3>
+<p>The dashboard communicates with the MemoWiki backend via REST API:</p>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET /api/v1/stats/overview</code></td>
+<td>Overview statistics</td>
+</tr>
+<tr>
+<td><code>GET /api/v1/files/status</code></td>
+<td>File documentation status</td>
+</tr>
+<tr>
+<td><code>GET /api/v1/summaries</code></td>
+<td>Agent summaries list</td>
+</tr>
+<tr>
+<td><code>GET /api/v1/activity?days=7</code></td>
+<td>Recent activity feed</td>
+</tr>
+<tr>
+<td><code>GET /api/v1/config/llm</code></td>
+<td>LLM configuration</td>
+</tr>
+</tbody>
+</table>
+<h3 id="monorepo-structure">Monorepo Structure<a class="headerlink" href="#monorepo-structure" title="Permanent link">&para;</a></h3>
+<p>The dashboard is configured as a workspace within the main MemoWiki project:</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">MemoWikiV1</span><span class="o">/</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">dashboard</span><span class="o">/</span><span class="w">              </span><span class="err">#</span><span class="w"> </span><span class="nx">Angular</span><span class="w"> </span><span class="nx">dashboard</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="nx">src</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="nx">app</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="nx">features</span><span class="o">/</span><span class="w">  </span><span class="err">#</span><span class="w"> </span><span class="nx">Main</span><span class="w"> </span><span class="nx">feature</span><span class="w"> </span><span class="nx">modules</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="nx">core</span><span class="o">/</span><span class="w">      </span><span class="err">#</span><span class="w"> </span><span class="nx">Services</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">models</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="nx">shared</span><span class="o">/</span><span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="nx">Reusable</span><span class="w"> </span><span class="nx">components</span>
+<span class="err">│</span><span class="w">   </span><span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="nx">environments</span><span class="o">/</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="nx">dist</span><span class="o">/</span><span class="w">              </span><span class="err">#</span><span class="w"> </span><span class="nx">Compiled</span><span class="w"> </span><span class="nx">output</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">src</span><span class="o">/</span><span class="w">                   </span><span class="err">#</span><span class="w"> </span><span class="nx">Backend</span><span class="w"> </span><span class="nx">TypeScript</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">node_modules</span><span class="o">/</span><span class="w">          </span><span class="err">#</span><span class="w"> </span><span class="nx">Shared</span><span class="w"> </span><span class="nx">dependencies</span>
+<span class="err">└──</span><span class="w"> </span><span class="kn">package</span><span class="p">.</span><span class="nx">json</span><span class="w">           </span><span class="err">#</span><span class="w"> </span><span class="nx">Workspace</span><span class="w"> </span><span class="nx">configuration</span>
+</code></pre></div>
+
+<h2 id="development-workflow">Development Workflow<a class="headerlink" href="#development-workflow" title="Permanent link">&para;</a></h2>
+<h3 id="making-changes">Making Changes<a class="headerlink" href="#making-changes" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 1. Make changes to dashboard code</span>
+<span class="c1"># 2. Test with hot-reload</span>
+<span class="nb">cd</span><span class="w"> </span>dashboard
+npm<span class="w"> </span>start
+
+<span class="c1"># 3. Build for production</span>
+npm<span class="w"> </span>run<span class="w"> </span>build
+
+<span class="c1"># 4. Test production build</span>
+<span class="nb">cd</span><span class="w"> </span>..
+memowiki<span class="w"> </span>serve
+</code></pre></div>
+
+<h3 id="adding-features">Adding Features<a class="headerlink" href="#adding-features" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Create Models</strong>: Define TypeScript interfaces in <code>src/app/core/models/</code></li>
+<li><strong>Create Services</strong>: Add API services in <code>src/app/core/services/</code></li>
+<li><strong>Create Components</strong>: Build UI in <code>src/app/features/</code></li>
+<li><strong>Update Routes</strong>: Add routes to <code>src/app/app.routes.ts</code></li>
+<li><strong>Backend API</strong>: Implement endpoints in <code>src/agent/dashboard-service.ts</code> and <code>src/agent/agent-api.ts</code></li>
+</ol>
+<h3 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Run Angular tests</span>
+<span class="nb">cd</span><span class="w"> </span>dashboard
+npm<span class="w"> </span><span class="nb">test</span>
+
+<span class="c1"># E2E tests</span>
+npm<span class="w"> </span>run<span class="w"> </span>e2e
+</code></pre></div>
+
+<h2 id="api-endpoints">API Endpoints<a class="headerlink" href="#api-endpoints" title="Permanent link">&para;</a></h2>
+<h3 id="dashboard-api">Dashboard API<a class="headerlink" href="#dashboard-api" title="Permanent link">&para;</a></h3>
+<p>All dashboard endpoints are prefixed with <code>/api/v1/</code>:</p>
+<h4 id="overview-statistics">Overview Statistics<a class="headerlink" href="#overview-statistics" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="err">GET /api/v1/stats/overview</span>
+</code></pre></div>
+
+<p>Response:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;filesDocumented&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;cacheHitRate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.85</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;summariesCreated&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;pendingTodos&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;lastUpdate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-12-02T12:00:00Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="file-statuses">File Statuses<a class="headerlink" href="#file-statuses" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="err">GET /api/v1/files/status</span>
+</code></pre></div>
+
+<p>Response:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;src/auth/login.ts&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;documented&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;lastUpdated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-12-02T10:30:00Z&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;hasCache&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<h4 id="activity-feed">Activity Feed<a class="headerlink" href="#activity-feed" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="err">GET /api/v1/activity?days=7</span>
+</code></pre></div>
+
+<p>Response:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;documentation&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Updated documentation for auth-service.ts&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-12-02T11:30:00Z&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;icon&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;📝&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<h4 id="llm-configuration">LLM Configuration<a class="headerlink" href="#llm-configuration" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="err">GET /api/v1/config/llm</span>
+</code></pre></div>
+
+<p>Response:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;env&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;currentProvider&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;openai&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;providers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;openai&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;configured&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;connected&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gpt-4-turbo-preview&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;usage&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;requests&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">145</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;estimatedCost&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.35</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;cacheHitRate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.72</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="customization">Customization<a class="headerlink" href="#customization" title="Permanent link">&para;</a></h2>
+<h3 id="styling">Styling<a class="headerlink" href="#styling" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Global styles: <code>dashboard/src/styles.scss</code></li>
+<li>Component styles: Inline in component <code>.ts</code> files</li>
+<li>Theme colors: Update gradient in <code>app.scss</code></li>
+</ul>
+<h3 id="environment-configuration">Environment Configuration<a class="headerlink" href="#environment-configuration" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">// dashboard/src/environments/environment.ts</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">environment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">production</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">apiUrl</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;/api/v1&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">wsUrl</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;ws://localhost:3000&#39;</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="dashboard-not-loading">Dashboard Not Loading<a class="headerlink" href="#dashboard-not-loading" title="Permanent link">&para;</a></h3>
+<p><strong>Symptoms</strong>: 404 or blank page at <code>http://localhost:3000</code></p>
+<p><strong>Solutions</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Rebuild dashboard</span>
+npm<span class="w"> </span>run<span class="w"> </span>build:dashboard
+
+<span class="c1"># Check output exists</span>
+ls<span class="w"> </span>dashboard/dist/dashboard/browser
+
+<span class="c1"># Restart server</span>
+memowiki<span class="w"> </span>serve
+</code></pre></div>
+
+<h3 id="api-errors-in-console">API Errors in Console<a class="headerlink" href="#api-errors-in-console" title="Permanent link">&para;</a></h3>
+<p><strong>Symptoms</strong>: <code>Failed to load resource: 404</code> for <code>/api/v1/*</code></p>
+<p><strong>Solutions</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Ensure backend is built</span>
+npm<span class="w"> </span>run<span class="w"> </span>build
+
+<span class="c1"># Check server is running</span>
+curl<span class="w"> </span>http://localhost:3000/health
+
+<span class="c1"># Rebuild and restart</span>
+npm<span class="w"> </span>run<span class="w"> </span>build:all
+memowiki<span class="w"> </span>serve
+</code></pre></div>
+
+<h3 id="development-server-cors-issues">Development Server CORS Issues<a class="headerlink" href="#development-server-cors-issues" title="Permanent link">&para;</a></h3>
+<p><strong>Symptoms</strong>: CORS errors during <code>ng serve</code></p>
+<p><strong>Solutions</strong>:
+- Ensure <code>proxy.conf.json</code> exists in dashboard directory
+- Verify <code>angular.json</code> has <code>proxyConfig</code> set
+- Restart <code>ng serve</code></p>
+<h2 id="roadmap">Roadmap<a class="headerlink" href="#roadmap" title="Permanent link">&para;</a></h2>
+<h3 id="phase-1-complete">Phase 1 (Complete)<a class="headerlink" href="#phase-1-complete" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ Overview dashboard</li>
+<li>✅ Documentation browser</li>
+<li>✅ Summaries timeline</li>
+<li>✅ Settings (LLM config display)</li>
+<li>✅ Backend API integration</li>
+</ul>
+<h3 id="phase-2-planned">Phase 2 (Planned)<a class="headerlink" href="#phase-2-planned" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] NgRx state management</li>
+<li>[ ] Charts and visualizations</li>
+<li>[ ] Mermaid diagram rendering</li>
+<li>[ ] Real-time updates via WebSocket</li>
+<li>[ ] Advanced filtering and sorting</li>
+</ul>
+<h3 id="phase-3-planned">Phase 3 (Planned)<a class="headerlink" href="#phase-3-planned" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] Documentation editing</li>
+<li>[ ] LLM provider switching</li>
+<li>[ ] Custom dashboard layouts</li>
+<li>[ ] Export functionality</li>
+<li>[ ] Multi-user support</li>
+</ul>
+<h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../serve/">Serve Command</a> - API server documentation</li>
+<li><a href="../configuration/">Configuration</a> - LLM setup</li>
+<li><a href="../update/">Update Command</a> - Documentation generation</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "toc.integrate", "content.code.copy"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
