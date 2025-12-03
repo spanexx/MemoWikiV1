@@ -25,11 +25,14 @@ export class GitService {
         const diff = await this.git.diff();
         const log = await this.git.log({ maxCount: 1 });
 
-        const status: GitStatus = {
-            modified: statusSummary.modified,
-            created: statusSummary.created,
-            deleted: statusSummary.deleted,
-            renamed: statusSummary.renamed.map(r => ({ from: r.from, to: r.to })),
+        const branchSummary = await this.git.branch();
+        const status = await this.git.status(); // Re-fetch status for conflict info
+
+        const branchInfo = {
+            current: branchSummary.current,
+            upstream: status.tracking || undefined,
+            ahead: status.ahead,
+            behind: status.behind,
         };
 
         const recentCommit = log.latest ? {
@@ -40,9 +43,16 @@ export class GitService {
         } : null;
 
         return {
-            status,
+            status: {
+                modified: statusSummary.modified,
+                created: statusSummary.created,
+                deleted: statusSummary.deleted,
+                renamed: statusSummary.renamed.map(r => ({ from: r.from, to: r.to })),
+            },
             diff,
             recentCommit,
+            branch: branchInfo,
+            conflicts: status.conflicted,
         };
     }
 

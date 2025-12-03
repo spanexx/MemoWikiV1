@@ -1,0 +1,21 @@
+<div class="app-container">
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <h1>{{ title }}</h1>
+    </div>
+    <ul class="nav-menu">
+      <li *ngFor="let item of navItems">
+        <a [routerLink]="item.path" routerLinkActive="active" class="nav-link">
+          <span class="nav-icon">{{ item.icon }}</span>
+          <span class="nav-label">{{ item.label }}</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <router-outlet />
+  </main>
+</div>

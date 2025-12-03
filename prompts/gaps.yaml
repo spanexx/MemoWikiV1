@@ -1,0 +1,5 @@
+get gaps:
+ -using the key passed by user as an entry point  give exactly the gaps
+  - Go through our HARDCOPY/CORE/ files, check the affected docs and tell me where we are in bridging the gaps
+  - the user will pass the key which is the entry point
+  - think it through and give me the full flow.  

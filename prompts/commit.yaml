@@ -1,0 +1,5 @@
+Git Commit:
+    - Using git status and git diff, come up with a commit message that is clear and concise.
+    - if the user call this file and include -message, only give the user the commit message,do not commit.
+    - otherwise, commit the changes.
+    - commit just the urrent changes not subsequent ones, unless i ask again.

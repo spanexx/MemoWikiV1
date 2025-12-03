@@ -1,0 +1,5 @@
+modularization:
+  - Do not create a long file.
+  - keep it under 120 lines.
+  - modularize the code.
+  - see workflows/modularizer.yaml instructions.

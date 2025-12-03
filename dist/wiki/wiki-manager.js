@@ -36,6 +36,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.WikiManager = void 0;
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
+const config_1 = require("../config/config");
 /**
  * Manages the CodeWiki directory structure and file operations
  * Handles creation and management of wiki directories for memory, diagrams, and summaries
@@ -43,12 +44,15 @@ const path = __importStar(require("path"));
 class WikiManager {
     baseDir;
     wikiDir;
+    config;
     /**
      * Creates a new WikiManager instance
      * @param baseDir - The base directory for the wiki (defaults to current working directory)
+     * @param config - Optional configuration object
      */
-    constructor(baseDir = process.cwd()) {
+    constructor(baseDir = process.cwd(), config) {
         this.baseDir = baseDir;
+        this.config = config || config_1.config;
         this.wikiDir = path.join(baseDir, '.codewiki');
     }
     /**
@@ -61,6 +65,7 @@ class WikiManager {
             fs.mkdirSync(this.wikiDir);
             fs.mkdirSync(path.join(this.wikiDir, 'memory'));
             fs.mkdirSync(path.join(this.wikiDir, 'diagrams'));
+            fs.mkdirSync(path.join(this.wikiDir, 'flows'));
             fs.mkdirSync(path.join(this.wikiDir, 'summaries'));
             this.createIndex();
         }
@@ -74,6 +79,22 @@ class WikiManager {
         const filePath = path.join(this.wikiDir, 'memory', `${filename}.md`);
         fs.writeFileSync(filePath, content);
     }
+    appendToSummary(filename, content) {
+        const summariesDir = path.join(this.wikiDir, 'summaries');
+        if (!fs.existsSync(summariesDir)) {
+            fs.mkdirSync(summariesDir, { recursive: true });
+        }
+        const filePath = path.join(summariesDir, `${filename}.md`);
+        if (fs.existsSync(filePath)) {
+            const existing = fs.readFileSync(filePath, 'utf-8');
+            const separator = `\n\n---\n\n## Update: ${new Date().toISOString()}\n\n`;
+            fs.writeFileSync(filePath, existing + separator + content);
+        }
+        else {
+            fs.writeFileSync(filePath, content);
+        }
+        return filePath;
+    }
     /**
      * Saves diagram content to a file in the diagrams directory
      * @param filename - The name of the file (without extension)
@@ -81,6 +102,28 @@ class WikiManager {
      */
     saveDiagram(filename, content) {
         const filePath = path.join(this.wikiDir, 'diagrams', `${filename}.mmd`);
+        fs.writeFileSync(filePath, content);
+    }
+    /**
+     * Saves flow content to a file in the flows directory
+     * @param filename - The name of the file (without extension)
+     * @param content - The content to save
+     */
+    saveFlow(filename, content) {
+        const flowsDir = path.join(this.wikiDir, 'flows');
+        if (!fs.existsSync(flowsDir)) {
+            fs.mkdirSync(flowsDir, { recursive: true });
+        }
+        const filePath = path.join(flowsDir, `${filename}.mmd`);
+        fs.writeFileSync(filePath, content);
+    }
+    /**
+     * Saves summary content to a file in the summaries directory
+     * @param filename - The name of the file (without extension)
+     * @param content - The content to save
+     */
+    saveSummary(filename, content) {
+        const filePath = path.join(this.wikiDir, 'summaries', `${filename}.md`);
         fs.writeFileSync(filePath, content);
     }
     /**
@@ -95,9 +138,10 @@ class WikiManager {
 Welcome to your codebase's persistent memory.
 
 ## Sections
-- [Memory](./memory)
-- [Diagrams](./diagrams)
-- [Summaries](./summaries)
+- [Memory](./memory) - Detailed documentation for each file
+- [Diagrams](./diagrams) - Class diagrams and relationships
+- [Flows](./flows) - Sequence diagrams and flowcharts
+- [Summaries](./summaries) - High-level system overviews
     `;
         fs.writeFileSync(path.join(this.wikiDir, 'index.md'), content);
     }

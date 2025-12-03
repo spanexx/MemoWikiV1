@@ -1,0 +1,6 @@
+Split file:
+ - split file into multiple files
+ - maintain original functionality
+ - maintain original structure
+ - maintain <120 lines per file
+ - see modularizer for inspiration at workflows/modularizer.yaml

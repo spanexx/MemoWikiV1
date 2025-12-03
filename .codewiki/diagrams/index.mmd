@@ -1,6 +1,76 @@
-
 ```mermaid
 classDiagram
+    direction LR
 
+    class GitStatus {
+        <<interface>>
+        +modified: any
+        +created: any
+        +deleted: any
+        +renamed: any
+    }
+
+    class BranchInfo {
+        <<interface>>
+        +current: string
+        +upstream: string
+        +ahead: number
+        +behind: number
+    }
+
+    class GitState {
+        <<interface>>
+        +status: GitStatus
+        +diff: any
+        +recentCommit: any
+        +branch: BranchInfo
+        +conflicts: any
+    }
+
+    class CodeStructure {
+        <<interface>>
+        +file: string
+        +classes: ClassInfo[]
+        +functions: FunctionInfo[]
+        +interfaces: InterfaceInfo[]
+        +imports: ImportInfo[]
+        +exports: any
+    }
+
+    class ClassInfo {
+        <<interface>>
+        +name: string
+        +methods: FunctionInfo[]
+        +properties: string[]
+    }
+
+    class FunctionInfo {
+        <<interface>>
+        +name: string
+        +parameters: string[]
+        +returnType: string
+    }
+
+    class InterfaceInfo {
+        <<interface>>
+        +name: string
+        +properties: string[]
+    }
+
+    class ImportInfo {
+        <<interface>>
+        +moduleSpecifier: string
+        +namedImports: string[]
+        +defaultImport: string
+    }
+
+    GitState *-- GitStatus : status
+    GitState *-- BranchInfo : branch
+
+    CodeStructure *-- ClassInfo : classes
+    CodeStructure *-- FunctionInfo : functions
+    CodeStructure *-- InterfaceInfo : interfaces
+    CodeStructure *-- ImportInfo : imports
+
+    ClassInfo *-- FunctionInfo : methods
 ```
-    

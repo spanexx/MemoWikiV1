@@ -1,11 +1,13 @@
-
 ```mermaid
 classDiagram
     class LLMService {
+        +provider
+        +config
+        +createProvider()
+        +getModelName() string
         +generateDocumentation()
         +generateDiagram()
-        +mockDocumentation()
-        +mockDiagram()
+        +generateSummary()
+        +generateArchitectureDiagram()
     }
 ```
-    

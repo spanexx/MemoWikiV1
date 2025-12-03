@@ -1,0 +1,17 @@
+# .memowikiignore
+# Files and directories to exclude from MemoWiki documentation
+
+# Test files
+**/*.test.ts
+**/*.spec.ts
+**/*.test.js
+**/*.spec.js
+
+# Configuration files
+*.config.js
+*.config.ts
+
+# Lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml

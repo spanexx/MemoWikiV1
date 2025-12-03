@@ -1,0 +1,63 @@
+<div class="documentation-container">
+    <header class="page-header">
+        <h1>📚 Documentation</h1>
+        <p class="text-muted">Browse the complete MemoWiki documentation</p>
+    </header>
+
+    <div class="filters-section">
+        <input type="text" placeholder="Search documentation..." [(ngModel)]="searchTerm" (input)="filterDocs()"
+            class="search-input" />
+        <select [(ngModel)]="categoryFilter" (change)="filterDocs()" class="category-select">
+            <option value="">All Categories</option>
+            <option *ngFor="let category of categories" [value]="category">
+                {{ category }}
+            </option>
+        </select>
+    </div>
+
+    <app-loading-spinner *ngIf="loading" />
+    <app-error-message *ngIf="error" [message]="error" [onRetry]="loadDocumentation.bind(this)" />
+
+    <div *ngIf="!loading && !error" class="content">
+        <app-empty-state *ngIf="filteredDocs.length === 0" icon="📄" title="No Documentation Found"
+            message="Try adjusting your search or filters" />
+
+        <div *ngIf="filteredDocs.length > 0" class="docs-grid">
+            <div *ngFor="let doc of paginatedDocs" class="doc-card">
+                <div class="doc-header">
+                    <span class="category-badge">{{ doc.category }}</span>
+                    <span class="doc-date">{{ formatDate(doc.lastUpdated) }}</span>
+                </div>
+                <h3 class="doc-title">{{ doc.title }}</h3>
+                <p class="doc-description">{{ doc.description }}</p>
+                <div class="doc-tags">
+                    <span *ngFor="let tag of doc.tags" class="tag">{{ tag }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div *ngIf="totalPages > 1" class="pagination">
+            <button class="pagination-btn" [disabled]="currentPage === 1" (click)="previousPage()">
+                ← Previous
+            </button>
+
+            <div class="page-numbers">
+                <button *ngFor="let page of getPageNumbers()" class="page-number" [class.active]="page === currentPage"
+                    (click)="goToPage(page)">
+                    {{ page }}
+                </button>
+            </div>
+
+            <button class="pagination-btn" [disabled]="currentPage === totalPages" (click)="nextPage()">
+                Next →
+            </button>
+        </div>
+
+        <div class="pagination-info">
+            Showing {{ (currentPage - 1) * itemsPerPage + 1 }} -
+            {{ Math.min(currentPage * itemsPerPage, filteredDocs.length) }}
+            of {{ filteredDocs.length }} items
+        </div>
+    </div>
+</div>

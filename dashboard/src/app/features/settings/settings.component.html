@@ -1,0 +1,142 @@
+<div class="settings-container">
+    <header class="page-header">
+        <h1>⚙️ Settings</h1>
+        <p>Configure your MemoWiki dashboard and LLM providers</p>
+    </header>
+
+    <app-loading-spinner *ngIf="loading" />
+    <app-error-message *ngIf="error" [message]="error" [onRetry]="loadConfig.bind(this)" />
+
+    <div *ngIf="!loading && !error && config" class="settings-content">
+        <!-- LLM Configuration Section -->
+        <section class="settings-section">
+            <h2>🤖 LLM Provider Configuration</h2>
+
+            <div class="config-source-toggle">
+                <div class="toggle-label">
+                    <strong>Configuration Source:</strong>
+                    <span>{{ config.source === 'env' ? '.env file (read-only)' : 'Dashboard (editable)' }}</span>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" [checked]="config.source === 'dashboard'" (change)="toggleConfigSource()"
+                        [disabled]="savingConfig">
+                    <span class="toggle-slider"></span>
+                </label>
+                <div class="toggle-hint">
+                    {{ config.source === 'env' ? 'Switch to manage configuration from dashboard' : 'Switch to use .env
+                    file configuration' }}
+                </div>
+            </div>
+
+            <div class="providers-grid">
+                <div *ngFor="let provider of config.providers" class="provider-card"
+                    [class.active]="provider.name === config.currentProvider"
+                    [class.editing]="isEditing(provider.name)">
+                    <div class="provider-header">
+                        <span class="provider-status" [class]="'status-' + provider.status">
+                            {{ getStatusIcon(provider.status) }}
+                        </span>
+                        <h3>{{ formatProviderName(provider.name) }}</h3>
+                    </div>
+
+                    <!-- View Mode -->
+                    <div *ngIf="!isEditing(provider.name)" class="provider-info">
+                        <div *ngIf="provider.model" class="info-row">
+                            <span class="label">Model:</span>
+                            <span class="value">{{ provider.model }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Status:</span>
+                            <span class="value">{{ getStatusText(provider.status) }}</span>
+                        </div>
+                        <div *ngIf="provider.latency" class="info-row">
+                            <span class="label">Latency:</span>
+                            <span class="value">{{ provider.latency }}ms</span>
+                        </div>
+                    </div>
+
+                    <!-- Edit Mode -->
+                    <div *ngIf="isEditing(provider.name)" class="provider-edit">
+                        <div class="form-group">
+                            <label>API Key</label>
+                            <div class="api-key-input">
+                                <input [type]="editMode[provider.name].showApiKey ? 'text' : 'password'"
+                                    [(ngModel)]="editMode[provider.name].apiKey" placeholder="Enter API key"
+                                    class="form-control">
+                                <button type="button" class="btn-icon" (click)="toggleApiKeyVisibility(provider.name)">
+                                    {{ editMode[provider.name].showApiKey ? '🙈' : '👁️' }}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Model</label>
+                            <input type="text" [(ngModel)]="editMode[provider.name].model" placeholder="Model name"
+                                class="form-control">
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="provider-actions">
+                        <!-- View Mode Actions -->
+                        <ng-container *ngIf="!isEditing(provider.name)">
+                            <button *ngIf="isEditable() && provider.configured" (click)="startEdit(provider.name)"
+                                class="btn-secondary">
+                                Edit
+                            </button>
+                            <button *ngIf="isEditable() && !provider.configured" (click)="startEdit(provider.name)"
+                                class="btn-primary">
+                                Configure
+                            </button>
+                            <button *ngIf="provider.configured && provider.name !== config.currentProvider"
+                                (click)="setDefaultProvider(provider.name)" class="btn-secondary"
+                                [disabled]="savingConfig">
+                                Set as Default
+                            </button>
+                            <span *ngIf="provider.name === config.currentProvider" class="current-badge">
+                                ✓ Current
+                            </span>
+                        </ng-container>
+
+                        <!-- Edit Mode Actions -->
+                        <ng-container *ngIf="isEditing(provider.name)">
+                            <button (click)="testConnection(provider.name)" class="btn-secondary"
+                                [disabled]="testingConnection === provider.name">
+                                {{ testingConnection === provider.name ? 'Testing...' : 'Test Connection' }}
+                            </button>
+                            <button (click)="saveProvider(provider.name)" class="btn-primary" [disabled]="savingConfig">
+                                Save
+                            </button>
+                            <button (click)="cancelEdit(provider.name)" class="btn-secondary">
+                                Cancel
+                            </button>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Preferences Section -->
+        <section class="settings-section">
+            <h2>🎨 Dashboard Preferences</h2>
+            <div class="preferences-form">
+                <div class="form-group">
+                    <label>Theme</label>
+                    <select class="form-control" [(ngModel)]="theme" (change)="onThemeChange($event)">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                        <option value="auto">Auto</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Auto-refresh Interval</label>
+                    <select class="form-control">
+                        <option>30 seconds</option>
+                        <option>1 minute</option>
+                        <option>5 minutes</option>
+                        <option>Disabled</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
