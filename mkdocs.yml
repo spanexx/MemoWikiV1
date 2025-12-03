@@ -1,8 +1,40 @@
-"P+ agent "lhttp://s.github.io/MemoWikiV1/rpo_name: spanexx/MemoWikiV1
-ethemenaateriallanguage:
- feursvig.tabs
-   - vigtoptc.ntee
-    - ctent.de.copy
+site_name: MemoWiki
+site_description: "Persistent memory layer + agent for your codebase"
+site_url: https://spanexx.github.io/MemoWikiV1/
+repo_url: https://github.com/spanexx/MemoWikiV1
+repo_name: spanexx/MemoWikiV1
+edit_uri: edit/main/docs/
 
-v:
-  - Hme: idexGettingStrte    CLIComms:upupd.mdearsch.d-sm:sumies.  rvv.md -ayznyz.md-rcordrerd.e:emdDhbr:ahbdmdCfguofgur.mdaioncoedod
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.top
+    - toc.integrate
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Update: update.md
+      - Search: search.md
+      - Summaries: summaries.md
+  - CLI Commands:
+      - update: update.md
+      - search: search.md
+      - summaries: summaries.md
+      - serve: serve.md
+      - analyze: analyze.md
+      - record: record.md
+      - intent: intent.md
+  - Dashboard: dashboard.md
+  - Configuration: configuration.md
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
+  - tables
+  - fenced_code
