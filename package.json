@@ -1,6 +1,6 @@
 {
   "name": "memowiki",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A persistent memory layer for your codebase + AI agent",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -35,9 +35,14 @@
   ],
   "author": "spanexx",
   "license": "MIT",
-  "repository": { "type": "git", "url": "https://github.com/spanexx/MemoWikiV1.git" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spanexx/MemoWikiV1.git"
+  },
   "homepage": "https://github.com/spanexx/MemoWikiV1#readme",
-  "bugs": { "url": "https://github.com/spanexx/MemoWikiV1/issues" },
+  "bugs": {
+    "url": "https://github.com/spanexx/MemoWikiV1/issues"
+  },
   "engines": {
     "node": ">=18.0.0"
   },
