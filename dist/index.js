@@ -41,14 +41,15 @@ exports.ContextService = exports.AgentAPI = exports.ConfigManager = exports.File
 const commander_1 = require("commander");
 const dotenv = __importStar(require("dotenv"));
 const chalk_1 = __importDefault(require("chalk"));
+const path = __importStar(require("path"));
+const fs = __importStar(require("fs"));
+const package_json_1 = __importDefault(require("../package.json"));
 const git_service_1 = require("./observer/git-service");
 const code_parser_1 = require("./scanner/code-parser");
 const llm_service_1 = require("./builder/llm-service");
 const wiki_manager_1 = require("./wiki/wiki-manager");
 const file_filter_1 = require("./scanner/file-filter");
 const cache_manager_1 = require("./scanner/cache-manager");
-const path = __importStar(require("path"));
-const fs = __importStar(require("fs"));
 dotenv.config();
 const config_1 = require("./config/config");
 // Export core classes for programmatic use
@@ -72,7 +73,7 @@ const program = new commander_1.Command();
 program
     .name('memowiki')
     .description('A persistent memory layer for your codebase')
-    .version('1.0.0');
+    .version(package_json_1.default.version || '0.0.0');
 program
     .command('update')
     .description('Update the wiki based on current code state and git status')

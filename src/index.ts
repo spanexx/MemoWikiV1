@@ -2,14 +2,15 @@
 import { Command } from 'commander';
 import * as dotenv from 'dotenv';
 import chalk from 'chalk';
+import * as path from 'path';
+import * as fs from 'fs';
+import pkg from '../package.json';
 import { GitService } from './observer/git-service';
 import { CodeParser } from './scanner/code-parser';
 import { LLMService } from './builder/llm-service';
 import { WikiManager } from './wiki/wiki-manager';
 import { FileFilter } from './scanner/file-filter';
 import { CacheManager } from './scanner/cache-manager';
-import * as path from 'path';
-import * as fs from 'fs';
 
 dotenv.config();
 
@@ -30,7 +31,7 @@ const program = new Command();
 program
     .name('memowiki')
     .description('A persistent memory layer for your codebase')
-    .version('1.0.0');
+    .version((pkg as any).version || '0.0.0');
 
 program
     .command('update')
