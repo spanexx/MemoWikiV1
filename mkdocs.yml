@@ -11,6 +11,8 @@ theme:
   features:
     - navigation.tabs
     - navigation.top
+    - navigation.sections
+    - navigation.expand
     - toc.integrate
     - content.code.copy
 
