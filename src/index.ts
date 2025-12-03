@@ -57,7 +57,19 @@ program
 
             if (options.full) {
                 console.log(chalk.yellow('⚠️  Forcing full scan...'));
-                filesToProcess = findFiles(process.cwd());
+                // Filter all files using FileFilter to include only supported code files
+                const fileFilter = new FileFilter(process.cwd());
+                const allFiles = findFiles(process.cwd());
+                filesToProcess = fileFilter.filterFiles(allFiles);
+
+                // Provide a safe default gitState so providers can render prompts without errors
+                gitState = {
+                    status: { modified: [], created: [], deleted: [], renamed: [] },
+                    diff: '',
+                    recentCommit: null,
+                    branch: { current: '', ahead: 0, behind: 0 },
+                    conflicts: []
+                };
             } else {
                 // Get git status
                 gitState = await gitService.getGitState();

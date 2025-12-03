@@ -47,6 +47,11 @@ export abstract class BaseProvider implements LLMProvider {
     }
 
     protected buildDocumentationPrompt(code: CodeStructure, gitState: GitState): string {
+        const hasRecent = !!gitState && !!gitState.recentCommit;
+        const modifiedCount = (gitState && (gitState as any).status && Array.isArray((gitState as any).status.modified))
+            ? (gitState as any).status.modified.length
+            : 0;
+
         return `You are a technical documentation expert. Generate comprehensive, high-quality markdown documentation for the following code file.
 
 File: ${code.file}
@@ -58,8 +63,8 @@ Code Structure:
 - Key Imports: ${code.imports.slice(0, 5).map((i: any) => i.moduleSpecifier).join(', ')}
 
 Recent Git Context:
-${gitState.recentCommit ? `Last commit: "${gitState.recentCommit.message}" by ${gitState.recentCommit.author_name}` : 'No recent commits'}
-${gitState.status.modified.length > 0 ? `Modified files: ${gitState.status.modified.length}` : ''}
+${hasRecent ? `Last commit: "${gitState.recentCommit?.message}" by ${gitState.recentCommit?.author_name}` : 'No recent commits'}
+${modifiedCount > 0 ? `Modified files: ${modifiedCount}` : ''}
 
 Generate a markdown documentation that includes:
 1. **Overview**: A clear, high-level summary of what this file does and its role in the system.
@@ -84,9 +89,10 @@ ${code.classes.map((c: any) => `- ${c.name}: methods [${c.methods.join(', ')}], 
 Interfaces:
 ${code.interfaces.map((i: any) => `- ${i.name}: properties [${i.properties.join(', ')}]`).join('\n')}
 
-Generate ONLY the Mermaid diagram code (starting with \`\`\`mermaid and ending with \`\`\`). 
+Generate ONLY the Mermaid diagram code WITHOUT markdown code fences. Do not wrap with triple backticks.
 Include class relationships (inheritance, composition) if they can be inferred.
-Use clear notation.`;
+Use clear notation.
+Begin with 'classDiagram'.`;
     }
 
     protected buildFlowPrompt(code: CodeStructure): string {
@@ -104,14 +110,19 @@ Choose the most appropriate diagram type:
 - **Sequence Diagram**: If the file involves interactions between multiple components/classes.
 - **Flowchart**: If the file contains complex algorithmic logic or state transitions.
 
-Generate ONLY the Mermaid diagram code (starting with \`\`\`mermaid and ending with \`\`\`).
-Focus on the main control flow or interaction pattern.`;
+Generate ONLY the Mermaid diagram code WITHOUT markdown code fences. Do not wrap with triple backticks.
+Focus on the main control flow or interaction pattern.
+Begin with 'sequenceDiagram' or 'flowchart'.`;
     }
 
     protected buildSummaryPrompt(files: CodeStructure[], gitState: GitState): string {
         const fileList = files.map(f => `- ${f.file}: ${f.classes.length} classes, ${f.functions.length} functions`).join('\n');
         const totalClasses = files.reduce((sum, f) => sum + f.classes.length, 0);
         const totalFunctions = files.reduce((sum, f) => sum + f.functions.length, 0);
+        const hasRecent = !!gitState && !!gitState.recentCommit;
+        const modifiedCount = (gitState && (gitState as any).status && Array.isArray((gitState as any).status.modified))
+            ? (gitState as any).status.modified.length
+            : 0;
 
         return `You are a software architect creating a high-level system overview. Generate a comprehensive markdown summary of this codebase.
 
@@ -124,8 +135,8 @@ Files:
 ${fileList}
 
 Recent Git Context:
-${gitState.recentCommit ? `Last commit: "${gitState.recentCommit.message}" by ${gitState.recentCommit.author_name}` : 'No recent commits'}
-${gitState.status.modified.length > 0 ? `Modified files: ${gitState.status.modified.length}` : ''}
+${hasRecent ? `Last commit: "${gitState.recentCommit?.message}" by ${gitState.recentCommit?.author_name}` : 'No recent commits'}
+${modifiedCount > 0 ? `Modified files: ${modifiedCount}` : ''}
 
 Generate a markdown summary that includes:
 1. **System Overview**: What is this project? What problem does it solve?
@@ -157,7 +168,8 @@ Create a flowchart (or architecture diagram) that shows:
 5. How components are orchestrated
 
 Use clear node labels and show directional relationships. Make it insightful about the system architecture.
-Use clear node labels and show directional relationships. Make it insightful about the system architecture.`;
+Generate ONLY Mermaid code WITHOUT markdown code fences. Do not wrap with triple backticks.
+Begin with 'flowchart'.`;
     }
 
     protected buildAgentSummaryPrompt(

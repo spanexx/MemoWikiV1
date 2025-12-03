@@ -110,7 +110,8 @@ class WikiManager {
             fs.mkdirSync(dirPath, { recursive: true });
         }
         const filePath = path.join(dirPath, `${filename}.mmd`);
-        fs.writeFileSync(filePath, content);
+        const normalized = this.extractMermaid(content);
+        fs.writeFileSync(filePath, normalized);
     }
     /**
      * Saves flow content to a file in the flows directory
@@ -123,7 +124,8 @@ class WikiManager {
             fs.mkdirSync(flowsDir, { recursive: true });
         }
         const filePath = path.join(flowsDir, `${filename}.mmd`);
-        fs.writeFileSync(filePath, content);
+        const normalized = this.extractMermaid(content);
+        fs.writeFileSync(filePath, normalized);
     }
     /**
      * Saves summary content to a file in the summaries directory
@@ -156,6 +158,12 @@ Welcome to your codebase's persistent memory.
 - [Summaries](./summaries) - High-level system overviews
     `;
         fs.writeFileSync(path.join(this.wikiDir, 'index.md'), content);
+    }
+    extractMermaid(content) {
+        const fence = /```(?:mermaid)?\s*([\s\S]*?)```/i;
+        const match = content.match(fence);
+        const inner = match ? match[1] : content;
+        return inner.trim() + '\n';
     }
 }
 exports.WikiManager = WikiManager;
