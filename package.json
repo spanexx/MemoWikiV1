@@ -33,8 +33,11 @@
     "documentation",
     "memory"
   ],
-  "author": "",
+  "author": "spanexx",
   "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/spanexx/MemoWikiV1.git" },
+  "homepage": "https://github.com/spanexx/MemoWikiV1#readme",
+  "bugs": { "url": "https://github.com/spanexx/MemoWikiV1/issues" },
   "engines": {
     "node": ">=18.0.0"
   },
